@@ -86,6 +86,7 @@
 from flask import Flask, request, render_template, jsonify, send_file ,send_from_directory, Response # type: ignore
 from flask_cors import CORS  # type: ignore
 import os
+import io 
 from dotenv import load_dotenv # type: ignore
 import numpy as np # type: ignore
 from io import BytesIO
@@ -95,6 +96,7 @@ from bson import ObjectId
 file_name=""
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
+from classify import predict 
 
 # Initialize Flask App
 print("Looking for templates in:", os.path.abspath("../backend/templates"))
@@ -176,9 +178,13 @@ def upload_file():
 
     polar_plot_data = fetch_plots_new(obj_id_polar).json.get("image")
     cartesian_plot_data = fetch_plots_new(obj_id_cartesian).json.get("image")
+    file_buffer = io.BytesIO(file_data)
+    preds =predict(file_buffer)
+    print(preds)
 
     return jsonify({
         "filename": file.filename,
+        "Used_Gun":preds,
         "doa_rad": float(doa_rad),
         "x": float(x),
         "y": float(y),

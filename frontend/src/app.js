@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = await response.json();
 
             resultsDiv.innerHTML = `
-                <h3 class="text-success text-center">Gunshot Detected!</h3>
+                <h3 class="text-success text-center">Gunshot Detected! Gun Used ${data.Used_Gun}</h3>
                 <p><strong>Latitude:</strong> ${data.gunshot_lat}</p>
                 <p><strong>Longitude:</strong> ${data.gunshot_long}</p>
                 <p><strong>DOA (radians):</strong> ${data.doa_rad}</p>
